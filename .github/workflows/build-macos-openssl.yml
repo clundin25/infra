@@ -1,20 +1,6 @@
 name: macOS OpenSSL
 on:
-  schedule:
-    # Run once a week on Fridays
-    - cron: "0 0 * * FRI"
-  pull_request:
-    paths:
-      - '.github/workflows/build-macos-openssl.yml'
-      # Contains the OpenSSL version we'll build
-      - 'cryptography-linux/openssl-version.sh'
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/build-macos-openssl.yml'
-      # Contains the OpenSSL version we'll build
-      - 'cryptography-linux/openssl-version.sh'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -25,11 +11,11 @@ jobs:
           - NAME: x86_64
             ARTIFACT_NAME: x86-64
             CFLAGS: "-mmacosx-version-min=10.12 -march=core2"
-            OPENSSLDIR: "/usr/local/etc/openssl@3"
+            OPENSSLDIR: "/usr/local/etc/openssl@1.1"
           - NAME: arm64
             ARTIFACT_NAME: arm64
             CFLAGS: "-mmacosx-version-min=11.0"
-            OPENSSLDIR: "/opt/homebrew/etc/openssl@3"
+            OPENSSLDIR: "/opt/homebrew/etc/openssl@1.1"
     name: "Build OpenSSL for macOS (${{ matrix.ARCH.NAME }})"
     steps:
       - uses: actions/checkout@v3.5.2
